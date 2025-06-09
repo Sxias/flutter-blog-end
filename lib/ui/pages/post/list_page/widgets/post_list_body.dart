@@ -18,7 +18,8 @@ class PostListBody extends ConsumerWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => PostDetailPage()));
+              // push -> 주소가 아닌 페이지 자체를 이동
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailPage(model.posts[index].id)));
             },
             child: PostListItem(model.posts[index]),
           );

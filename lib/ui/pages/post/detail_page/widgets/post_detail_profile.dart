@@ -1,17 +1,29 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/_core/constants/size.dart';
+import 'package:flutter_blog/_core/utils/my_http.dart';
+import 'package:flutter_blog/data/model/post.dart';
 
 class PostDetailProfile extends StatelessWidget {
+  Post post;
 
-  const PostDetailProfile({Key? key}) : super(key: key);
+  PostDetailProfile(this.post);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text("ssar"),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: Image.asset('assets/default_profile.png'),
+        title: Text("${post.user.username}"),
+        leading: ClipOval(
+          // 네모난 이미지를 동그랗게 만들기 위한 값 설정
+          child: AspectRatio(
+            aspectRatio: 1 / 1,
+            child: CachedNetworkImage(
+              imageUrl: "${baseUrl}${post.user.imgUrl}",
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
+            ),
+          ), // 네모난 이미지
         ),
         subtitle: Row(
           children: [
@@ -20,9 +32,8 @@ class PostDetailProfile extends StatelessWidget {
             const Text("·"),
             const SizedBox(width: mediumGap),
             const Text("Written on "),
-            Text("May 25"),
+            Text("${post.createdAt}"),
           ],
-        )
-    );
+        ));
   }
 }

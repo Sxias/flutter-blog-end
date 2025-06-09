@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_blog/data/model/post.dart';
 import 'package:flutter_blog/data/repository/post_repository.dart';
 import 'package:flutter_blog/main.dart';
@@ -18,8 +19,23 @@ class PostListVM extends Notifier<PostListModel?> {
     return null;
   }
 
+  // 삭제 후 통신 없이 데이터 동기화
+  void notifyDeleteOne(int postId) {
+    PostListModel model = state!;
+
+    model.posts = model.posts.where((p) => p.id != postId).toList();
+
+    state = state!.copyWith(posts: model.posts);
+  }
+
   Future<void> init({int page = 0}) async {
     Map<String, dynamic> body = await PostRepository().getList(page: page);
+    if (!body["success"]) {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(content: Text("게시글 불러오기 실패 : ${body["errorMessage"]}")),
+      );
+      return;
+    }
     state = PostListModel.fromMap(body["response"]);
   }
 }
