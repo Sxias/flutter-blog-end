@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/ui/pages/post/detail_page/post_detail_page.dart';
 import 'package:flutter_blog/ui/pages/post/list_page/post_list_vm.dart';
-import 'package:flutter_blog/ui/pages/post/list_page/wiegets/post_list_item.dart';
+import 'package:flutter_blog/ui/pages/post/list_page/widgets/post_list_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostListBody extends ConsumerWidget {
