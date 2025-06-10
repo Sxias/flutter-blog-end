@@ -61,6 +61,23 @@ class PostDetailVM extends AutoDisposeFamilyNotifier<PostDetailModel?, int> {
 
     state = PostDetailModel.fromMap(body["response"]);
   }
+
+  Future<void> update(int postId, String title, String content) async {
+    Map<String, dynamic> body = await PostRepository().update(postId, title, content);
+    if (!body["success"]) {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(content: Text("게시글 수정 실패 : ${body["errorMessage"]}")),
+      );
+      return;
+    }
+
+    Post nextPost = Post.fromMap(body["response"]);
+    state = state!.copyWith(post: nextPost);
+
+    ref.read(postListProvider.notifier).notifyUpdate(nextPost);
+
+    Navigator.pop(mContext);
+  }
 }
 
 // TODO 2 : replies 빼고 상태로 관리하기

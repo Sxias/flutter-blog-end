@@ -23,4 +23,32 @@ class PostRepository {
     Logger().d(responseBody);
     return responseBody;
   }
+
+  Future<Map<String, dynamic>> write(String title, String content) async {
+    // 1. Map 변환
+    final requestBody = {
+      "title": title,
+      "content": content,
+    };
+
+    // 2. 통신
+    Response response = await dio.post("/api/post", data: requestBody);
+    Map<String, dynamic> responseBody = response.data;
+
+    return responseBody;
+  }
+
+  Future<Map<String, dynamic>> update(int postId, String title, String content) async {
+    // 1. Map 변환
+    final requestBody = {
+      "title": title,
+      "content": content,
+    };
+
+    // 2. 통신
+    Response response = await dio.put("/api/post/${postId}", data: requestBody);
+    Map<String, dynamic> responseBody = response.data;
+
+    return responseBody;
+  }
 }
